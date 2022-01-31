@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-deployment
+  namespace: test-deployment
+  labels: 
+    xyz: yzx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      xyz: yzx
+  template:
+    metadata:
+      labels:
+        xyz: yzx
+    spec:
+      containers:
+      - name: spring-boot
+        image: springbootdp:test-version2
+        imagePullPolicy: IfNotPresent
+        envFrom:
+          - configMapRef: 
+              name: spring-config
+          - secretRef:
+              name: spring-secret
+        ports: 
+          - name: http
+            containerPort: 8080
+            protocol: TCP 
